@@ -9,25 +9,22 @@
     <link rel="StyleSheet" type="text/css" href="<?php echo $_assign_vars['pageStylesheetUrl']; ?>" />
 </head>
 
-<body>
+<body class="skl_bg">
     <div class="wrapper">
         <div class="body_wrapper">
-            <div class="body_top"> 
-            <h1><?php echo $_assign_vars['pageHeading']; ?></h1>
-            </div>
-            <div class="body"> 
+                <div class="install_header">
+                    <div class="header_top_decor"></div>
+                    <h1 class="welcome_text"><?php echo $_assign_vars['pageHeading']; ?></h1>
+                </div>
+                <div class="page_steps_wrap">
+                    <div class="step_name"><?php echo $_assign_vars['pageTitle']; ?></div>
+                    <?php echo $_assign_vars['pageSteps']; ?>
+                    <div class="logo_container skl_logo"></div>
+                    <div class="step_indicator"></div>
+                </div>
                 <div class="content">
-                    <div class="clearfix">
-                        <div class="logo_container">
-                        </div>
-                    </div>
                     <?php echo $_assign_vars['pageBody']; ?>
                 </div>
-                <div class="body_bottom">
-                <?php echo $_assign_vars['pageSteps']; ?>
-            </div>
-
-           </div>
         </div>
     </div>
 </body>

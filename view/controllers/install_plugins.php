@@ -1,9 +1,9 @@
-<p style="font-size: 16px; font-family: Arial; margin: -42px 0px 18px; color: rgb(98, 98, 98); border-bottom: 1px solid #e9eaeb; padding-bottom: 20px;">Install plugins</p>
 
-<table style=" font-size: 15px;" class="form"> <p style=" color: #626262; text-align: center;">We thought you'd also like to throw in some plugins while you're at it:</p>
+
+<p style=" color: #626262; font-family: 'Trebuchet MS'; text-align: center; "> We thought you'd also like to throw in some plugins while you're at it:</p>
 
 <form method="post">
-<table class="plugin_table" style="padding-left: 119px;">
+<table class="plugin_table">
     <?php 
         foreach ($_assign_vars['plugins'] as $p) 
         {
@@ -27,7 +27,7 @@
     <?php } ?>
 </table>
 
-<p align="center" style="margin: 10px 0 20px 0;"><input type="submit" value="Finish" style=" text-transform: uppercase; font-size: 13px; font-family: 'Arial'; font-weight: bold; color: #777;/></p>
+<p align="center"><input type="submit" value="Finish" /></p>
 
 
 </form>

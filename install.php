@@ -63,6 +63,9 @@ if ( !$installComplete || ( defined('OW_INSTALL_DEV') && OW_INSTALL_DEV ) )
     OW::getAutoloader()->addPackagePointer('INSTALL_BOL', INSTALL_DIR_BOL);
     OW::getAutoloader()->addPackagePointer('INSTALL_CTRL', INSTALL_DIR_CTRL);
     OW::getAutoloader()->addPackagePointer('INSTALL_CMP', INSTALL_DIR_CMP);
+    
+    // Skadate Lite
+    OW::getAutoloader()->addClass("SKADATE_BOL_LicenceService", OW_DIR_PLUGIN . "skadate" . DS . "bol" . DS . "licence_service.php");
 
     OW::getAutoloader()->addClass('INSTALL', INSTALL_DIR_CLASSES . 'install.php');
 

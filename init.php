@@ -10,6 +10,8 @@ OW::getRouter()->addRoute(new OW_Route('install-action', 'install/installation/:
 OW::getRouter()->addRoute(new OW_Route('plugins', 'install/plugins', 'INSTALL_CTRL_Install', 'plugins'));
 OW::getRouter()->addRoute(new OW_Route('finish', 'install/security', 'INSTALL_CTRL_Install', 'finish'));
 
+OW::getRouter()->addRoute(new OW_Route('license', 'install/license', 'INSTALL_CTRL_Install', 'license'));
+
 function install_tpl_feedback_flag($flag, $class = 'error')
 {
     if ( INSTALL::getFeedback()->getFlag($flag) )

@@ -12,7 +12,7 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
 
     public function requirements()
     {
-        $this->setPageHeading("Welcome to Oxwall Installation!");
+        $this->setPageHeading("Welcome to SkaDate Installation!");
         
         $lines = file(INSTALL_DIR_FILES . 'requirements.txt');
         $ruleLines = array();
@@ -137,14 +137,64 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
 
         if ( empty($checkRequirements) )
         {
+            INSTALL::getStorage()->set("requirementsPassed", true);
+            $this->redirect( OW::getRouter()->urlForRoute('license') );
+        }
+    }
+    
+    public function license()
+    {
+    	$this->setPageHeading("Welcome to SkaDate Installation!");
+    
+        $this->setPageTitle('License');
+        INSTALL::getStepIndicator()->activate('license');
+        
+        $sessionData = INSTALL::getStorage()->getAll();
+        $this->assign('data', $sessionData);
+        
+        if (OW::getRequest()->isPost())
+        {
+            $data = $_POST;
+            $data = array_filter($data, 'trim');
+            
+            $data['license_key'] = empty($data['license_key']) ? "" : $data['license_key'];
+            $this->processData($data);
+            
+            if ( empty($data['license_key']) )
+            {
+                INSTALL::getFeedback()->errorFlag("license_key");
+                
+                $this->redirect();
+            }
+            
+            try
+            {
+
+               $result = SKADATE_BOL_LicenceService::getInstance()->checkLicenseKey($data['license_key']);
+
+                if ( empty($result['licenseValid']) )
+                {
+                    INSTALL::getFeedback()->errorMessage("Invalid license key. Check it carefully and try again or contact Skadate support team.");
+
+                    $this->redirect();
+                }
+                
+            } 
+            catch ( Exception $ex )
+            {
+                INSTALL::getFeedback()->errorMessage($ex->getMessage());
+
+                $this->redirect();
+            }
+            
             $this->redirect( OW::getRouter()->urlForRoute('site') );
         }
     }
 
     public function site()
     {
-        $this->setPageHeading("Welcome to Oxwall Installation!");
-        $this->setPageTitle('Site');
+        $this->setPageHeading("Welcome to SkaDate Installation!");
+        $this->setPageTitle('Site Settings');
         INSTALL::getStepIndicator()->activate('site');
 
         $fieldData = array();
@@ -273,7 +323,7 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
 
                     if ( !empty($existingTables) )
                     {
-                        INSTALL::getFeedback()->errorMessage('This database should be empty _especially_ if you try to reinstall Oxwall.');
+                        INSTALL::getFeedback()->errorMessage('This database should be empty _especially_ if you try to reinstall Skadate.');
 
                         $this->redirect();
                     }
@@ -374,7 +424,7 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
             }
         }
 
-        $this->setPageTitle('Installation');
+        $this->setPageTitle('Finalizing Install');
         INSTALL::getStepIndicator()->activate('install');
 
         $configContent = file_get_contents(INSTALL_DIR_FILES . 'config.txt');
@@ -438,6 +488,11 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
     {
         $avaliablePlugins = $this->getPluginsForInstall();
 
+        if ( empty($avaliablePlugins) )
+        {
+            $this->installComplete();
+        }
+
         if ( OW::getRequest()->isPost() )
         {
             $plugins = empty($_POST['plugins']) ? array() : $_POST['plugins'];
@@ -458,16 +513,13 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
         INSTALL::getStepIndicator()->activate('plugins');
         $this->setPageTitle('Plugins');
 
-        if ( empty($avaliablePlugins) )
-        {
-            $this->installComplete();
-        }
-
         $this->assign('plugins', $avaliablePlugins);
     }
 
     public function finish()
     {
+    	$this->setPageTitle('Security');
+    
         INSTALL::getStepIndicator()->add('finish', 'Security', true);
     }
 
@@ -490,6 +542,9 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
         OW::getConfig()->saveConfig('base', 'site_name', $storage->get('site_title'));
         OW::getConfig()->saveConfig('base', 'site_tagline', $storage->get('site_tagline'));
         OW::getConfig()->saveConfig('base', 'site_email', $email);
+        
+        OW::getConfig()->saveConfig('skadate', 'license_key', $storage->get('license_key'));
+        OW::getConfig()->saveConfig('skadate', 'license_key_valid', true);
 
         $notInstalledPlugins = array();
 
@@ -519,7 +574,6 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
 
         OW::getConfig()->saveConfig('base', 'site_installed', 1);
         OW::getConfig()->saveConfig('base', 'dev_mode', 1);
-
         @UTIL_File::removeDir(OW_DIR_ROOT . "ow_install");
 
         $this->redirect(OW_URL_HOME);

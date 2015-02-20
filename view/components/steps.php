@@ -2,8 +2,8 @@
     <?php $iteration = 1; ?>
     <?php foreach ($_assign_vars['steps'] as $step) { ?>
             <?php
-                if ( $iteration == 1 ) $class = 'borderright';
-                else if ( $iteration == count($_assign_vars['steps']) ) $class = 'borderleft';
+                if ( $iteration == 1 ) $class = 'borderright first';
+                else if ( $iteration == count($_assign_vars['steps']) ) $class = 'borderleft last';
                 else $class = 'borderleft borderright';
                 $iteration ++;
             ?>

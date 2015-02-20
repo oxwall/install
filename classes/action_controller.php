@@ -3,7 +3,7 @@
 class INSTALL_ActionController extends INSTALL_Renderable
 {
     private $title = 'OW Install';
-    private $heading = 'Installation Process';
+    private $heading = 'Installation process:';
     
     private $navigation;
     

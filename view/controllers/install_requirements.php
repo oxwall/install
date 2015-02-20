@@ -1,10 +1,9 @@
-<p style=" font-size: 16px; font-family:Arial; color: #626262; margin: -42px 0 18px 0; border-bottom: 1px solid #e9eaeb; padding-bottom: 20px;" > Hosting Server Requirements</p>
 
 <p class="red">
 	Your hosting account doesn't meet the following requirements:
 </p>
 
-<ul class="ow_regular">
+<ul class="ow_regular" style="font-family: 'Trebuchet MS'; text-align: center;">
 <!-- PHP version -->
 <?php if ( !empty($_assign_vars['fails']['php']['version']) ) { $requiredVersion = $_assign_vars['fails']['php']['version']; ?>
     
@@ -61,5 +60,5 @@
 </ul>
 
 <p>
-	Please correct these before you can proceed with Oxwall installation. Complete server requirements list and compatible hosting can be found at <a href="http://www.oxwall.org/hosting">Oxwall.org/hosting</a>
+	Please correct these before you can proceed with Skadate installation. Complete server requirements list and compatible hosting can be found at <a href="http://www.skadate.com/hosting.php">Skadate.com/hosting</a>
 </p>

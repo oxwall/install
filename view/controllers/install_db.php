@@ -1,15 +1,16 @@
-<p style="font-size: 16px; font-family: Arial; margin: -42px 0px 18px; color: rgb(98, 98, 98);border-bottom: 1px solid #e9eaeb; padding-bottom: 20px;">Database </p>
+
+<p style=" padding-top: 80px; color: #000; font-family: 'Trebuchet MS'; text-align: center; ">Please create a database and enter its details here. </p>
 
 <?php echo install_tpl_feedback(); ?>
-<form method="post">
-    <table style=" font-size: 15px;" class="form"> <p style=" color: #626262; text-align: center;"> Please create a database and enter its details here. </p>
 
-        <tr> 
+<form method="post">
+    <table class="form">
+        <tr>
             <td class="label">Host</td>
             <td class="value <?php echo install_tpl_feedback_flag('db_host'); ?>">
                <input type="text" name="db_host" value="<?php echo @$_assign_vars['data']['db_host']; ?>" />
             </td>
-            <td class="description">MySQL host and port (optionally). Example: <i>localhost</i> or <i>localhost:3307</i></td>
+            <td class="description" style="width: 324px; height: 34px; font-family: 'Trebuchet MS'; color: #626262;" >MySQL host and port <br> (optionally). Example: <br> <i>localhost</i> or <i>localhost:3307</i></td>
         </tr>
         <tr>
             <td class="label">User</td>
@@ -43,6 +44,6 @@
         </tr>
     </table>
 
-    <p align="center" style="margin: 10px 0 20px 0;" ><input type="submit" value="Continue" style=" text-transform: uppercase; font-size: 13px; font-family: 'Arial'; font-weight: bold; color: #777;/></p>
+    <p align="center"><input type="submit" value="Continue" style=" margin-bottom: 40px; font-size: 15px; text-transform: uppercase; text-align: center; font-weight: bold; font-family: 'Trebuchet MS'; color: #626262;" /></p>
 
 </form>
