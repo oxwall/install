@@ -333,8 +333,7 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
             if ( !empty($errorDirs) )
             {
                 //INSTALL::getFeedback()->errorMessage('Some directories are not writable');
-
-                $this->redirect();
+                $this->redirect(OW::getRouter()->urlForRoute("install"));
             }
 
             try
@@ -343,9 +342,9 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
             }
             catch ( InvalidArgumentException $e )
             {
-                INSTALL::getFeedback()->errorMessage('Could not connect to Database');
+                INSTALL::getFeedback()->errorMessage('<b>ow_includes/config.php</b> file is incorrect. Update it with details provided below.');
 
-                $this->redirect();
+                $this->redirect(OW::getRouter()->urlForRoute("install"));
             }
 
             try
@@ -356,7 +355,7 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
             {
                 INSTALL::getFeedback()->errorMessage($e->getMessage());
 
-                $this->redirect();
+                $this->redirect(OW::getRouter()->urlForRoute("install"));
             }
 
             try
@@ -408,7 +407,7 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
         {
             if ( !is_writable($dir) )
             {
-                $notWritableDirs[] = substr($dir, 0, -1);;
+                $notWritableDirs[] = substr($dir, 0, -1);
 
                 continue;
             }
