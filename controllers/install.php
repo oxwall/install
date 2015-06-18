@@ -458,7 +458,7 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
         {
             if ( !is_writable($dir) )
             {
-                $notWritableDirs[] = substr($dir, 0, -1);;
+                $notWritableDirs[] = substr($dir, 0, -1);
 
                 continue;
             }
