@@ -383,7 +383,7 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
         $data['db_host'] = $hostInfo[0];
         $data['db_port'] = empty($hostInfo[1]) ? 'null' : '"' . $hostInfo[1] . '"';
 
-        $data['password_salt'] = uniqid();
+        $data['password_salt'] = UTIL_String::getRandomString(16);
 
         $search = array();
         $replace = array();
