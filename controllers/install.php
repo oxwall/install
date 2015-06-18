@@ -347,16 +347,17 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
                 $this->redirect(OW::getRouter()->urlForRoute("install"));
             }
 
-            try
+            $this->installSystemPlugins();
+            /*try
             {
-                $this->sqlImport(INSTALL_DIR_FILES . 'install.sql');
+                $this->installSystemPlugins();
             }
             catch ( Exception $e )
             {
                 INSTALL::getFeedback()->errorMessage($e->getMessage());
 
                 $this->redirect(OW::getRouter()->urlForRoute("install"));
-            }
+            }*/
 
             try
             {
@@ -399,6 +400,11 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
         $this->assign('dirs', $errorDirs);
 
         $this->assign('isConfigWritable', is_writable($configFile));
+    }
+    
+    private function installSystemPlugins()
+    {
+        BOL_PluginService::getInstance()->installSystemPlugins();
     }
 
     private function checkWritable( $dirs, & $notWritableDirs )
@@ -501,7 +507,6 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
                 try
                 {
                     BOL_PluginService::getInstance()->install($plugin['key'], false);
-                    OW::getPluginManager()->readPluginsList();
                     OW::getPluginManager()->initPlugin(OW::getPluginManager()->getPlugin($plugin['key']));
                 }
                 catch ( LogicException $e )
