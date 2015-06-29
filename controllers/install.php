@@ -349,7 +349,7 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
 
             try
             {
-                $this->sqlImport(INSTALL_DIR_FILES . 'install.sql');
+                $this->installSystemPlugins();
             }
             catch ( Exception $e )
             {
@@ -431,6 +431,11 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
 
             $this->checkWritable($subDirs, $notWritableDirs);
         }
+    }
+    
+    private function installSystemPlugins()
+    {
+        BOL_PluginService::getInstance()->installSystemPlugins();
     }
 
     public function plugins()
