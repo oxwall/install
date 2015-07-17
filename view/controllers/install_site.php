@@ -51,7 +51,7 @@
 	    <tr>
 	        <td class="label">Password</td>
 	        <td class="value <?php echo install_tpl_feedback_flag('admin_password'); ?>">
-	           <input type="text" name="admin_password" value="<?php echo @$_assign_vars['data']['admin_password']; ?>" />
+	           <input type="password" name="admin_password" value="<?php echo @$_assign_vars['data']['admin_password']; ?>" />
 	        </td>
 	        <td class="description">From 2 to 12 characters</td>
 	    </tr>
