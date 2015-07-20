@@ -155,6 +155,8 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
         $fieldData = array_merge($fieldData, $sessionData);
 
         $this->assign('data', $fieldData);
+        
+        $pwSalt = uniqid();
 
         $errors = array();
 
@@ -185,9 +187,14 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
                 $errors[] = 'admin_username';
             }
 
-            if ( empty($data['admin_password']) || strlen($data['admin_password']) < 3 )
+            if ( empty($data['admin_password']) || strlen($data['admin_password']) < 8 || strlen($data['admin_password']) > 30 )
             {
                 $errors[] = 'admin_password';
+            }
+            
+            if ( empty($data['admin_password_repeat']) || strlen($data['admin_password_repeat']) < 8 || strlen($data['admin_password_repeat']) > 30 || ( hash('sha256', $pwSalt . $data['admin_password']) != hash('sha256', $pwSalt . $data['admin_password_repeat']) ) )
+            {
+                $errors[] = 'admin_password_repeat';
             }
 
             if ( empty($data['admin_email']) || !UTIL_Validator::isEmailValid($data['admin_email']) )
