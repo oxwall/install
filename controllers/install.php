@@ -143,6 +143,8 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
 
     public function site()
     {
+        require_once OW_DIR_LIB . 'password_compat' . DS . 'password.php';
+        
         $this->setPageHeading("Welcome to Oxwall Installation!");
         $this->setPageTitle('Site');
         INSTALL::getStepIndicator()->activate('site');
@@ -192,7 +194,7 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
                 $errors[] = 'admin_password';
             }
             
-            if ( empty($data['admin_password_repeat']) || strlen($data['admin_password_repeat']) < 8 || strlen($data['admin_password_repeat']) > 30 || ( hash('sha256', $pwSalt . $data['admin_password']) != hash('sha256', $pwSalt . $data['admin_password_repeat']) ) )
+            if ( empty($data['admin_password_repeat']) || strlen($data['admin_password_repeat']) < 8 || strlen($data['admin_password_repeat']) > 30 || !password_verify($data['admin_password'] . $pwSalt, password_hash($data['admin_password_repeat'] . $pwSalt, PASSWORD_DEFAULT)) )
             {
                 $errors[] = 'admin_password_repeat';
             }
