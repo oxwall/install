@@ -156,7 +156,7 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
 
         $this->assign('data', $fieldData);
         
-        $pwSalt = uniqid();
+        $pwSalt = UTIL_String::getRandomString(16);
 
         $errors = array();
 
