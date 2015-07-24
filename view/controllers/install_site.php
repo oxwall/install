@@ -56,11 +56,11 @@
 	        <td class="description">From 8 to 30 characters</td>
 	    </tr>
 	    <tr>
-+	        <td class="label">Repeat Password</td>
-+	        <td class="value <?php echo install_tpl_feedback_flag('admin_password_repeat'); ?>">
-+	           <input type="password" name="admin_password_repeat" value="<?php echo @$_assign_vars['data']['admin_password_repeat']; ?>" />
-+	        </td>
-+	        <td class="description">Repeat inserted password (from 8 to 30 characters)</td>
+	        <td class="label">Repeat Password</td>
+	        <td class="value <?php echo install_tpl_feedback_flag('admin_password_repeat'); ?>">
+	           <input type="password" name="admin_password_repeat" value="<?php echo @$_assign_vars['data']['admin_password_repeat']; ?>" />
+	        </td>
+	        <td class="description">Repeat inserted password (from 8 to 30 characters)</td>
  	    </tr>
 	</table>
 
