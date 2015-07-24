@@ -51,10 +51,17 @@
 	    <tr>
 	        <td class="label">Password</td>
 	        <td class="value <?php echo install_tpl_feedback_flag('admin_password'); ?>">
-	           <input type="text" name="admin_password" value="<?php echo @$_assign_vars['data']['admin_password']; ?>" />
+	           <input type="password" name="admin_password" value="<?php echo @$_assign_vars['data']['admin_password']; ?>" />
 	        </td>
-	        <td class="description">From 2 to 12 characters</td>
+	        <td class="description">From 8 to 30 characters</td>
 	    </tr>
+	    <tr>
++	        <td class="label">Repeat Password</td>
++	        <td class="value <?php echo install_tpl_feedback_flag('admin_password_repeat'); ?>">
++	           <input type="password" name="admin_password_repeat" value="<?php echo @$_assign_vars['data']['admin_password_repeat']; ?>" />
++	        </td>
++	        <td class="description">Repeat inserted password (from 8 to 30 characters)</td>
+ 	    </tr>
 	</table>
 
 	<p align="center"><input type="submit" value="Continue" style=" text-transform: uppercase; font-size: 13px; font-family: 'Arial'; font-weight: bold; color: #777; /></p>
