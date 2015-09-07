@@ -129,7 +129,7 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
                     break;
             }
         }
-
+        
         $this->assign('fails', $fails);
         $this->assign('current', $current);
 

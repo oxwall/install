@@ -2,7 +2,7 @@
 
 class INSTALL_ActionController extends INSTALL_Renderable
 {
-    private $title = 'OW Install';
+    private $title = 'SkaDate Install';
     private $heading = 'Installation process:';
     
     private $navigation;
