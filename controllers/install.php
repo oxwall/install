@@ -559,52 +559,6 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
         return $resultPluginList;
     }
 
-     /**
-     * Executes an SQL dump file.
-     *
-     * @param string $sql_file path to file
-     */
-    private static function sqlImport( $sqlFile )
-    {
-        if ( !($fd = @fopen($sqlFile, 'rb')) ) {
-            throw new LogicException('SQL dump file `'.$sqlFile.'` not found');
-        }
-
-        $lineNo = 0;
-        $query = '';
-        while ( false !== ($line = fgets($fd, 10240)) )
-        {
-            $lineNo++;
-
-            if ( !strlen(($line = trim($line)))
-                || $line{0} == '#' || $line{0} == '-'
-                || preg_match('~^/\*\!.+\*/;$~siu', $line) ) {
-                continue;
-            }
-
-            $query .= $line;
-
-            if ( $line{strlen($line)-1} != ';' ) {
-                continue;
-            }
-
-            $query = str_replace('%%TBL-PREFIX%%', OW_DB_PREFIX, $query);
-
-            try {
-                OW::getDbo()->query($query);
-            }
-            catch ( Exception $e ) {
-                throw new LogicException('<b>ow_includes/config.php</b> file is incorrect. Update it with details provided below.');
-            }
-
-            $query = '';
-        }
-
-        fclose($fd);
-
-        return true;
-    }
-
     public function processData($data)
     {
         foreach ( $data as $name => $value )
