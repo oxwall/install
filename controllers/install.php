@@ -506,7 +506,6 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
                 try
                 {
                     BOL_PluginService::getInstance()->install($plugin['key'], false);
-                    OW::getPluginManager()->readPluginsList();
                     OW::getPluginManager()->initPlugin(OW::getPluginManager()->getPlugin($plugin['key']));
                 }
                 catch ( LogicException $e )
