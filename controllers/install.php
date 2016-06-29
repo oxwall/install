@@ -369,7 +369,24 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
 
             if ( isset($_POST['continue']) || $doInstall )
             {
-                $this->redirect(OW::getRouter()->urlForRoute('plugins'));
+                // allow to admin select additional plugins
+                if ( $this->getPluginsForInstall(true) )
+                {
+                    $this->redirect(OW::getRouter()->urlForRoute('plugins'));
+                }
+                else
+                {
+                    // there are no any additional plugins
+                    $installPlugins = array();
+                    foreach ( $this->getPluginsForInstall() as $pluginKey => $pluginData )
+                    {
+                        $installPlugins[$pluginKey] = $pluginData['plugin'];
+                    }
+
+                    $this->installComplete($installPlugins);
+
+                    return;
+                }
             }
         }
 
@@ -435,6 +452,7 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
 
     public function plugins()
     {
+        // get all plugin list
         $avaliablePlugins = $this->getPluginsForInstall();
 
         if ( OW::getRequest()->isPost() )
@@ -524,30 +542,30 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
         $this->redirect(OW_URL_HOME);
     }
 
-
-
-    private function getPluginsForInstall()
+    /**
+     * Get plugins for install
+     *
+     * @param boolean $onlyOptional
+     * @return array
+     */
+    private function getPluginsForInstall($onlyOptional = false)
     {
-        $fileContent = file_get_contents(INSTALL_DIR_FILES . 'plugins.txt');
-        $pluginForInstall = explode("\n", $fileContent);
-
+        $pluginForInstall = INSTALL::getPredefinedPluginList();
         $plugins = BOL_PluginService::getInstance()->getAvailablePluginsList();
-
         $resultPluginList = array();
 
-        foreach ( $pluginForInstall as $pluginLine )
+        foreach ( $pluginForInstall as $pluginData )
         {
-            $plInfo = explode(':', $pluginLine);
-            $pluginKey = $plInfo[0];
+            $isAutoInstall = $pluginData['auto'];
 
-            if ( empty($plugins[$pluginKey]) )
+            if ( empty($plugins[$pluginData['plugin']]) || ($onlyOptional && $isAutoInstall) )
             {
                 continue;
             }
 
-            $resultPluginList[$pluginKey] = array(
-                'plugin' => $plugins[$pluginKey],
-                'auto' =>  ( !empty($plInfo[1]) && trim($plInfo[1]) == 'auto' )
+            $resultPluginList[$pluginData['plugin']] = array(
+                'plugin' => $plugins[$pluginData['plugin']],
+                'auto' =>  $pluginData['auto']
             );
         }
 
