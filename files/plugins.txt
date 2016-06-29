@@ -2,6 +2,6 @@ newsfeed:auto
 mailbox:auto
 notifications:auto
 slideshow:auto
-photo
-video
-friends
+photo:auto
+video:auto
+friends:auto
