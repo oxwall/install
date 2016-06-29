@@ -4,4 +4,4 @@ notifications:auto
 slideshow:auto
 photo:auto
 video:auto
-friends:autogit
+friends:auto
