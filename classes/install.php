@@ -19,7 +19,7 @@ class INSTALL
     {
         return INSTALL_FeedBack::getInstance();    
     }
-    
+
     /**
      * 
      * @return INSTALL_CMP_Steps
@@ -30,12 +30,12 @@ class INSTALL
         
         if ( empty($stepIndicator) )
         {
-            $stepIndicator = new INSTALL_CMP_Steps();
+            $stepIndicator = new INSTALL_CMP_Steps( self::getPredefinedPluginList(true) );
         }
-        
+
         return $stepIndicator;    
     }
-    
+
     /**
      * 
      * @return INSTALL_ViewRenderer
@@ -43,5 +43,36 @@ class INSTALL
     public static function getViewRenderer()
     {
         return INSTALL_ViewRenderer::getInstance();
+    }
+
+    /**
+     * Get predefined plugin list
+     *
+     * @param boolean $onlyOptional
+     * @return array
+     */
+    public static function getPredefinedPluginList($onlyOptional = false)
+    {
+        $fileContent = file_get_contents(INSTALL_DIR_FILES . 'plugins.txt');
+        $pluginForInstall = explode("\n", $fileContent);
+        $resultPluginList = array();
+
+        foreach ( $pluginForInstall as $pluginLine )
+        {
+            $plInfo = explode(':', $pluginLine);
+            $isAutoInstall = ( !empty($plInfo[1]) && trim($plInfo[1]) == 'auto' );
+
+            if ( $onlyOptional && $isAutoInstall )
+            {
+                continue;
+            }
+
+            $resultPluginList[] = array(
+                'plugin' => $plInfo[0],
+                'auto' =>  $isAutoInstall
+            );
+        }
+
+        return $resultPluginList;
     }
 }

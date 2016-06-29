@@ -3,15 +3,25 @@
 class INSTALL_CMP_Steps extends INSTALL_Component
 {
     private $steps = array();
-    
-    public function __construct()
+
+    /**
+     * Constructor
+     *
+     * @param array $optionalPlugins
+     */
+    public function __construct(array $optionalPlugins = array())
     {
         parent::__construct();
         
         $this->add('site', 'Site');
         $this->add('db', 'Database');
         $this->add('install', 'Install');
-        $this->add('plugins', 'Plugins');
+
+        // allow to admin select additional plugins
+        if ( $optionalPlugins )
+        {
+            $this->add('plugins', 'Plugins');
+        }
     }
     
     public function add($key, $label, $active = false)
