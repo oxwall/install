@@ -143,6 +143,8 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
 
     public function site()
     {
+        require_once OW_DIR_LIB . 'password_compat' . DS . 'password.php';
+        
         $this->setPageHeading("Welcome to Oxwall Installation!");
         $this->setPageTitle('Site');
         INSTALL::getStepIndicator()->activate('site');
@@ -155,6 +157,8 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
         $fieldData = array_merge($fieldData, $sessionData);
 
         $this->assign('data', $fieldData);
+        
+        $pwSalt = UTIL_String::getRandomString(16);
 
         $errors = array();
 
@@ -185,9 +189,14 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
                 $errors[] = 'admin_username';
             }
 
-            if ( empty($data['admin_password']) || strlen($data['admin_password']) < 3 )
+            if ( empty($data['admin_password']) || strlen($data['admin_password']) < 8 || strlen($data['admin_password']) > 30 )
             {
                 $errors[] = 'admin_password';
+            }
+            
+            if ( empty($data['admin_password_repeat']) || strlen($data['admin_password_repeat']) < 8 || strlen($data['admin_password_repeat']) > 30 || !password_verify($data['admin_password'] . $pwSalt, password_hash($data['admin_password_repeat'] . $pwSalt, PASSWORD_DEFAULT)) )
+            {
+                $errors[] = 'admin_password_repeat';
             }
 
             if ( empty($data['admin_email']) || !UTIL_Validator::isEmailValid($data['admin_email']) )
