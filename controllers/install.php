@@ -70,6 +70,18 @@ class INSTALL_CTRL_Install extends INSTALL_ActionController
 
                         case 'extensions':
                             $requiredExtensions = array_map('trim', explode(',', $value));
+                            
+                           // begin mod
+                           //if php7+ then remove mysql from required extensions                            
+                           $phpVersion = phpversion();                            
+                           if( (int) $phpVersion > 6)
+                           {
+                                 $delvalue = 'mysql';
+                                 $keyvalue = array_search($delvalue, $requiredExtensions);
+                                 unset($requiredExtensions[$keyvalue]); 
+                            }
+                           //end mod                             
+                            
                             $loadedExtensions = get_loaded_extensions();
                             $diff = array_values(array_diff($requiredExtensions, $loadedExtensions));
                             if ( !empty($diff) )
